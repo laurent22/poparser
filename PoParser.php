@@ -9,7 +9,7 @@
 
 class PoParser {
 
-	private function parseMsgId($line, &$output) {
+	protected function parseMsgId($line, &$output) {
 		$success = @ereg('msgid "(.*)"', $line, $result);
 		if ($success === false) return false;
 		$output = $result[1];
@@ -17,7 +17,7 @@ class PoParser {
 	}
 
 
-	private function parseMsgStr($line, &$output) {
+	protected function parseMsgStr($line, &$output) {
 		$success = @ereg('msgstr "(.*)"', $line, $result);
 		if ($success === false) return false;
 		$output = $result[1];
@@ -25,7 +25,7 @@ class PoParser {
 	}
 
 
-	private function parseString($line, &$output) {
+	protected function parseString($line, &$output) {
 		$success = @ereg('^"(.*)"', $line, $result);
 		if ($success === false) return false;
 		$output = $result[1];
@@ -33,24 +33,24 @@ class PoParser {
 	}
 
 
-	private function parseFuzzy($line) {
+	protected function parseFuzzy($line) {
 		$success = @ereg('#, fuzzy', $line, $result);
 		if ($success === false) return false;
 		return true;
 	}
 
 
-	private function parseObsolete($line) {
+	protected function parseObsolete($line) {
 		return substr($line, 0, 2) == "#~";
 	}
 
 
-	private function getLine($file) {
+	protected function getLine($file) {
 		return trim(fgets($file));
 	}
 
 
-	public function parsePoFile($path) {
+	protected function parsePoFile($path) {
 		$file = @fopen($path, 'r');
 		if ($file === false) {
 			throw new Exception("Cannot open ".$path);
